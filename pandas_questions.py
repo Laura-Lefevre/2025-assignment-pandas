@@ -61,7 +61,9 @@ def merge_referendum_and_areas(referendum, regions_and_departments):
     referendum["Department code"] = (
         referendum["Department code"].astype(str).str.zfill(2)
     )
-    referendum_clean = referendum[~referendum["Department code"].str.contains("Z")]
+    referendum_clean = referendum[
+        ~referendum["Department code"].str.contains("Z")
+    ]
     # Clean regions_and_departments data
     without_DomTomCom = regions_and_departments[
         regions_and_departments["code_dep"].str.len() == 2
@@ -86,7 +88,13 @@ def compute_referendum_result_by_regions(referendum_and_areas):
     """
 
     # Colmns to sum
-    vote_columns = ["Registered", "Abstentions", "Null", "Choice A", "Choice B"]
+    vote_columns = [
+        "Registered",
+        "Abstentions",
+        "Null",
+        "Choice A",
+        "Choice B",
+    ]
 
     # Sum by code and region name
     grouped_df = referendum_and_areas.groupby(["code_reg", "name_reg"])[
@@ -145,7 +153,9 @@ if __name__ == "__main__":
     referendum_and_areas = merge_referendum_and_areas(
         referendum, regions_and_departments
     )
-    referendum_results = compute_referendum_result_by_regions(referendum_and_areas)
+    referendum_results = compute_referendum_result_by_regions(
+        referendum_and_areas
+    )
     print(referendum_results)
 
     plot_referendum_map(referendum_results)
